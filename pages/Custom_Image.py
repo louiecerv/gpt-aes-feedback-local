@@ -67,10 +67,7 @@ def app():
         response found in this image out of a perfect score of 100. 
         Point out significant errors. Provide feedback and suggestions for improvement."""
 
-        file_path = os.path.join("uploads", uploaded_file.name)
-        with open(file_path, "wb") as f:
-            f.write(uploaded_file.getvalue())        
-        base64_image = encode_image(file_path)
+        base64_image = encode_image(image)
     else:
         st.error("Please upload an image file.")
         return
