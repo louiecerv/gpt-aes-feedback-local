@@ -61,13 +61,16 @@ def app():
         image = PIL.Image.open(uploaded_file)
         question = st.text_area("Enter the essay question:")
         scoring_rubric = st.text_area("Enter the scoring rubric:")
-    
+
         prompt = """You are a language teacher. The essay question is
         {question} Use the scoring rubric: {scoring_rubric} Score the essay 
         response found in this image out of a perfect score of 100. 
         Point out significant errors. Provide feedback and suggestions for improvement."""
 
-    base64_image = encode_image(uploaded_file)
+        base64_image = encode_image(uploaded_file.name)
+    else:
+        st.error("Please upload an image file.")
+        return
         
     prompt = """You are a language teacher.  Score the essay response 
     found in this image out of a perfect score of 100.  
