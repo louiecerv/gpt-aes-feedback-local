@@ -70,7 +70,7 @@ def app():
         file_path = os.path.join("uploads", uploaded_file.name)
         with open(file_path, "wb") as f:
             f.write(uploaded_file.getvalue())        
-        base64_image = encode_image(os.path.join("uploads", uploaded_file.name))
+        base64_image = encode_image(file_path)
     else:
         st.error("Please upload an image file.")
         return
