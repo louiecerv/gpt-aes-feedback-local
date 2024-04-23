@@ -67,15 +67,13 @@ def app():
         response found in this image out of a perfect score of 100. 
         Point out significant errors. Provide feedback and suggestions for improvement."""
 
-        base64_image = encode_image('./' + uploaded_file.name)
+        file_path = os.path.join("uploads", uploaded_file.name)
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getvalue())        
+        base64_image = encode_image(os.path.join("uploads", uploaded_file.name))
     else:
         st.error("Please upload an image file.")
         return
-        
-    prompt = """You are a language teacher.  Score the essay response 
-    found in this image out of a perfect score of 100.  
-    Point out significant errors. 
-    Provide feedback and suggestions for improvement."""
 
     payload = {
     "model": "gpt-4-turbo",
