@@ -12,8 +12,14 @@ api_key = os.getenv("API_key")
 
 # Function to encode the imaxerge
 def encode_image(image_path):
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
+     if isinstance(image, JpegImageFile):
+        # Assuming the image is already loaded
+        byte_io = io.BytesIO()
+        image.save(byte_io, 'JPEG')
+        return base64_image = base64.b64encode(byte_io.getvalue()).decode('utf-8')
+    else:
+        with open(image_path, "rb") as image_file:
+            return base64.b64encode(image_file.read()).decode('utf-8')
 
 headers = {
     "Content-Type": "application/json",
