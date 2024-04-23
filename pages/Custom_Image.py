@@ -5,21 +5,15 @@ import base64
 import requests
 import streamlit as st
 import json
+from PIL import Image  # Import Pillow library for JpegImageFile
 
 # OpenAI API Key
 #api_key = st.secrets["API_key"]
 api_key = os.getenv("API_key")
 
 # Function to encode the imaxerge
-def encode_image(image_path):
-    if isinstance(image_path, JpegImageFile):
-        # Assuming the image is already loaded
-        byte_io = io.BytesIO()
-        image_path.save(byte_io, 'JPEG')
-        return base64.b64encode(byte_io.getvalue()).decode('utf-8')
-    else:
-        with open(image_path, "rb") as image_file:
-            return base64.b64encode(image_file.read()).decode('utf-8')
+def encode_image(image_data):
+    return base64.b64encode(image_data).decode('utf-8')
 
 headers = {
     "Content-Type": "application/json",
@@ -64,7 +58,7 @@ def app():
     uploaded_file = st.sidebar.file_uploader("Choose an image", type=["jpg", "jpeg", "png"])
     if uploaded_file is not None:
         st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
-        image = PIL.Image.open(uploaded_file)
+        #image = PIL.Image.open(uploaded_file)
         question = st.text_area("Enter the essay question:")
         scoring_rubric = st.text_area("Enter the scoring rubric:")
 
@@ -73,7 +67,8 @@ def app():
         response found in this image out of a perfect score of 100. 
         Point out significant errors. Provide feedback and suggestions for improvement."""
 
-        base64_image = encode_image(image)
+        image_data = uploaded_file.read()
+        base64_image = encode_image(image_data)
     else:
         st.error("Please upload an image file.")
         return
